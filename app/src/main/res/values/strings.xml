@@ -6,4 +6,11 @@
 
     <string name="error_empty_field">You did not fill out the field</string>
     <string name="app_name" translatable="false">Notes</string>
+
+    <string name="title_dialog_attachment_variants">Pin a photo</string>
+
+    <string-array name="attachment_variants">
+        <item>Choose from gallery</item>
+        <item>Take a photo</item>
+    </string-array>
 </resources>

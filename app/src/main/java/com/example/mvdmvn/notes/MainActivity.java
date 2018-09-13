@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.mvdmvn.notes.db.NotesContract;
 import com.example.mvdmvn.notes.ui.NotesAdapter;
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         Log.i("Test", "Load finished: " + cursor.getCount());
+
 
         notesAdapter.swapCursor(cursor);
     }

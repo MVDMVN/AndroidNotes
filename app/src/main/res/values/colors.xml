@@ -11,5 +11,5 @@
 
     <color name="text_primary">#DD000000</color>
     <color name="text_secondary">#89000000</color>
-    <color name="text_disabled">#61000000</color>
+    <color name="text_desa">#61000000</color>
 </resources>
