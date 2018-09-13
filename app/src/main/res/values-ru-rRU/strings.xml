@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hint_title">Введите название</string>
+    <string name="hint_text">Введите ваши заметки</string>
+    <string name="hint_save">Сохранить</string>
+    <string name="error_empty_field">Вы не заполнили поле</string>
+</resources>
