@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.mvdmvn.notes">
-
-    <!--Для поддержки версий до 4.4-->
+    <!-- Для поддержки версий до 4.4 -->
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
@@ -14,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".CreateNoteActivity"></activity>
+        <activity android:name=".NoteActivity"></activity>
+        <activity android:name=".CreateNoteActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,17 +27,14 @@
             android:name=".db.NotesProvider"
             android:authorities="com.example.mvdmvn.notes.provider"
             android:exported="false" />
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.skillberg.notes.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
-
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-
         </provider>
     </application>
 

@@ -4,10 +4,18 @@
     <string name="hint_text">Enter your notes</string>
     <string name="hint_save">Save</string>
 
+
     <string name="error_empty_field">You did not fill out the field</string>
     <string name="app_name" translatable="false">Notes</string>
 
     <string name="title_dialog_attachment_variants">Pin a photo</string>
+    <string name="title_edit">Edit</string>
+    <string name="title_delete">Delete</string>
+
+    <string name="message_delete_image">Delete image?</string>
+
+    <string name="title_btn_yes">Yes</string>
+    <string name="title_btn_no">No</string>
 
     <string-array name="attachment_variants">
         <item>Choose from gallery</item>

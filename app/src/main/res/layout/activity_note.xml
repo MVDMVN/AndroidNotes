@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.mvdmvn.notes.CreateNoteActivity">
+    tools:context="com.example.mvdmvn.notes.NoteActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -27,39 +27,13 @@
             android:layout_marginTop="16dp"
             android:orientation="vertical">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/title_til"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/title_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/hint_title"
-                    android:inputType="textCapSentences" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/text_til"
+            <TextView
+                android:id="@+id/text_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/text_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="start|top"
-                    android:hint="@string/hint_text"
-                    android:inputType="textCapSentences|textMultiLine"
-                    android:lines="3"
-                    android:maxLines="999"
-                    android:scrollbars="none" />
-
-            </android.support.design.widget.TextInputLayout>
-
+                android:fontFamily="sans-serif"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/images_rv"
@@ -71,6 +45,5 @@
 
 
     </android.support.v4.widget.NestedScrollView>
-
 
 </android.support.design.widget.CoordinatorLayout>

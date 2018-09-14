@@ -7,6 +7,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -30,7 +31,7 @@ public class NotesProvider extends ContentProvider {
         URI_MATCHER.addURI(NotesContract.AUTHORITY, "notes/#", NOTE);
 
         URI_MATCHER.addURI(NotesContract.AUTHORITY, "images", IMAGES);
-        URI_MATCHER.addURI(NotesContract.AUTHORITY, "image/#", IMAGE);
+        URI_MATCHER.addURI(NotesContract.AUTHORITY, "images/#", IMAGE);
     }
 
     private NotesDbHelper notesDbHelper;
@@ -64,6 +65,23 @@ public class NotesProvider extends ContentProvider {
                         sortOrder);
 
             case NOTE:
+                String id = uri.getLastPathSegment();
+
+                if (TextUtils.isEmpty(selection)) {
+                    selection = NotesContract.Notes._ID + " = ?";
+                    selectionArgs = new String[]{id};
+                } else {
+                    selection = selection + " AND " + NotesContract.Notes._ID + " = ?";
+
+                    String[] newSelectionArgs = new String[selectionArgs.length + 1];
+
+                    System.arraycopy(selectionArgs, 0, newSelectionArgs, 0, selectionArgs.length);
+
+                    newSelectionArgs[newSelectionArgs.length - 1] = id;
+
+                    selectionArgs = newSelectionArgs;
+                }
+
                 return db.query(NotesContract.Notes.TABLE_NAME,
                         projection,
                         selection,
@@ -111,36 +129,6 @@ public class NotesProvider extends ContentProvider {
                 return null;
         }
     }
-    /*
-    * Метод, который получает изображение, выбранное из галереи
-    * */
-    private void writeInputStreamToFile(InputStream inputStream, File outFile) throws IOException {
-        FileOutputStream fileOutputStream = new FileOutputStream(outFile);
-
-        byte[] buffer = new byte[8192];
-        int n;
-
-        while ((n = inputStream.read(buffer)) > 0) {
-            fileOutputStream.write(buffer, 0, n);
-        }
-
-        fileOutputStream.flush();
-        fileOutputStream.close();
-        inputStream.close();
-    }
-
-    private void addImageToDatabase(File file) {
-        if (noteId == -1) {
-            // На данный момент мы добавляем аттачи только в режиме редактирования
-            return;
-        }
-
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(NotesContract.Images.COLUMN_PATH, file.getAbsolutePath());
-        contentValues.put(NotesContract.Images.COLUMN_NOTE_ID, noteId);
-
-        getContentResolver().insert(NotesContract.Images.URI, contentValues);
-    }
 
     @Nullable
     @Override
@@ -166,11 +154,14 @@ public class NotesProvider extends ContentProvider {
                 long imageRowId = db.insert(NotesContract.Images.TABLE_NAME,
                         null,
                         contentValues);
+
                 if (imageRowId > 0) {
                     Uri imageUri = ContentUris.withAppendedId(NotesContract.Images.URI, imageRowId);
                     getContext().getContentResolver().notifyChange(uri, null);
+
                     return imageUri;
                 }
+
                 return null;
 
             default:
@@ -182,6 +173,7 @@ public class NotesProvider extends ContentProvider {
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
 
         SQLiteDatabase db = notesDbHelper.getWritableDatabase();
+
         switch (URI_MATCHER.match(uri)) {
             case NOTE:
                 String noteId = uri.getLastPathSegment();
@@ -222,7 +214,6 @@ public class NotesProvider extends ContentProvider {
                 getContext().getContentResolver().notifyChange(uri, null);
 
                 return imageRowsUpdated;
-
         }
 
         return 0;
@@ -231,6 +222,36 @@ public class NotesProvider extends ContentProvider {
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues contentValues,
                       @Nullable String selection, @Nullable String[] selectionArgs) {
+
+        SQLiteDatabase db = notesDbHelper.getWritableDatabase();
+
+        switch (URI_MATCHER.match(uri)) {
+            case NOTE:
+                String id = uri.getLastPathSegment();
+
+                if (TextUtils.isEmpty(selection)) {
+                    selection = NotesContract.Notes._ID + " = ?";
+                    selectionArgs = new String[]{id};
+                } else {
+                    selection = selection + " AND " + NotesContract.Notes._ID + " = ?";
+
+                    String[] newSelectionArgs = new String[selectionArgs.length + 1];
+
+                    System.arraycopy(selectionArgs, 0, newSelectionArgs, 0, selectionArgs.length);
+
+                    newSelectionArgs[newSelectionArgs.length - 1] = id;
+
+                    selectionArgs = newSelectionArgs;
+                }
+
+                int rowsUpdated = db.update(NotesContract.Notes.TABLE_NAME, contentValues, selection, selectionArgs);
+
+                getContext().getContentResolver().notifyChange(uri, null);
+
+                return rowsUpdated;
+        }
+
+
         return 0;
     }
 }
